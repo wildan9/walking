@@ -10,13 +10,16 @@ using String = std::string;
 
 struct Vector2D : public Vector2
 {
+    Vector2D(Vector2 vec) : Vector2{ vec.x, vec.y } {}
     Vector2D(float x, float y) : Vector2{ x, y } {}
     Vector2D(float x) : Vector2{ x, 0.0f } {}
     Vector2D() : Vector2{ 0.0f, 0.0f } {}
     float Length() const;
     float DotProduct(Vector2D vec) const;
     Vector2D Add(Vector2D vec) const;
+    Vector2D Add(Vector2 vec) const;
     Vector2D Subtract(Vector2D vec) const;
+    Vector2D Subtract(Vector2 vec) const;
     Vector2D Scale(float scale) const;
     Vector2D Normalize() const;
     Vector2D Rotate(float angle) const;
@@ -38,7 +41,17 @@ inline Vector2D Vector2D::Add(Vector2D vec) const
     return Vector2D{ x + vec.x, y + vec.y };
 }
 
+inline Vector2D Vector2D::Add(Vector2 vec) const
+{
+    return Vector2D{ x + vec.x, y + vec.y };
+}
+
 inline Vector2D Vector2D::Subtract(Vector2D vec) const
+{
+    return Vector2D{ x - vec.x, y - vec.y };
+}
+
+inline Vector2D Vector2D::Subtract(Vector2 vec) const
 {
     return Vector2D{ x - vec.x, y - vec.y };
 }

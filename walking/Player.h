@@ -13,6 +13,7 @@ public:
 	void SetPosition(const Vector2D& pos);
 	Rectangle GetCollision() const;
 	float GetFacing() const;
+	float GetSpeed() const;
 	bool IsPunch() const;
 	void Stop();
 	void OnLand();
@@ -24,7 +25,6 @@ private:
 	float _timer{};
 	float _facing{ 1.0f };
 	float row() const;
-	float speed() const;
 	float timer() const;
 	float frame_time() const;
 	const float _updateTime{ 0.0834f };

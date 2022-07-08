@@ -14,9 +14,9 @@ public:
 	void Run();
 
 private:
-	const int _windowWidth{ 512 };
-	const int _windowHeight{ 512 };
-	raylib::Camera2D _camera;
+	const int _screenWidth{ 512 };
+	const int _screenHeight{ 512 };
+	raylib::Camera2D _camera{};
 };
 
 enum class GameScreen

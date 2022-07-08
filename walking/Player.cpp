@@ -43,6 +43,12 @@ float Player::GetFacing() const
 	return _facing;
 }
 
+float Player::GetSpeed() const
+{
+	if (IsKeyDown(KEY_SPACE)) return 4.0f; // walk fast
+	else return 2.0f; // walk slow
+}
+
 bool Player::IsPunch() const
 {
 	if (IsKeyDown(KEY_E) && !_isWalk) return 1;
@@ -56,7 +62,7 @@ void Player::Stop()
 
 void Player::OnLand()
 {
-	if (speed() == 2.0f) _timer += frame_time() * 0.23f;
+	if (GetSpeed() == 2.0f) _timer += frame_time() * 0.23f;
 	else _timer += frame_time() * 0.33f;
 
 	if (_isWalk && _timer >= _updateTime)
@@ -68,7 +74,7 @@ void Player::OnLand()
 
 void Player::OnWater()
 {
-	if (speed() == 2.0f) _timer += frame_time() * 0.11f;
+	if (GetSpeed() == 2.0f) _timer += frame_time() * 0.11f;
 	else _timer += frame_time() * 0.13f;
 
 	if (_isWalk && _timer >= _updateTime)
@@ -85,7 +91,7 @@ void Player::Draw()
 	if (direction().Length() != 0.0f)
 	{
 		_isWalk = 1;
-		_texturePos = _texturePos.Subtract(direction().Normalize().Scale(speed()));
+		_texturePos = _texturePos.Subtract(direction().Normalize().Scale(GetSpeed()));
 		_texture = _textureWalk;
 		if (direction().x < 0.0f) _facing = 1.0f;
 		if (direction().x > 0.0f) _facing = -1.0f;
@@ -120,12 +126,6 @@ float Player::row() const
 	if (IsPunch() && !_isWalk) return 3.0f;
 	else if (!_isWalk) return 2.0f;
 	else if (_isWalk) return 6.0f;
-}
-
-float Player::speed() const
-{
-	if (IsKeyDown(KEY_SPACE)) return 4.0f; // walk fast
-	else return 2.0f; // walk slow
 }
 
 float Player::timer() const
