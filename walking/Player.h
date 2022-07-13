@@ -26,7 +26,6 @@ private:
 	float _facing{ 1.0f };
 	float row() const;
 	float timer() const;
-	float frame_time() const;
 	const float _updateTime{ 0.0834f };
 	Vector2D _texturePos{};
 	Vector2D _textureLastPos{};

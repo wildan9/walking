@@ -62,8 +62,8 @@ void Player::Stop()
 
 void Player::OnLand()
 {
-	if (GetSpeed() == 2.0f) _timer += frame_time() * 0.23f;
-	else _timer += frame_time() * 0.33f;
+	if (GetSpeed() == 2.0f) _timer += GetFrameTime() * 0.23f;
+	else _timer += GetFrameTime() * 0.33f;
 
 	if (_isWalk && _timer >= _updateTime)
 	{
@@ -74,8 +74,8 @@ void Player::OnLand()
 
 void Player::OnWater()
 {
-	if (GetSpeed() == 2.0f) _timer += frame_time() * 0.11f;
-	else _timer += frame_time() * 0.13f;
+	if (GetSpeed() == 2.0f) _timer += GetFrameTime() * 0.11f;
+	else _timer += GetFrameTime() * 0.13f;
 
 	if (_isWalk && _timer >= _updateTime)
 	{
@@ -104,7 +104,7 @@ void Player::Draw()
 
 	if (IsPunch()) _texture = _texturePunch;
 
-	Animate(_texturePos, _texture, frame_time(), 1.5f, row(), _facing, timer());
+	Animate(_texturePos, _texture, GetFrameTime(), 1.5f, row(), _facing, timer());
 }
 
 // ---------------- Private Functions ------------------------------------------
@@ -133,9 +133,4 @@ float Player::timer() const
 	if (_isWalk) return 0.0f;
 	else if (IsPunch() && !_isWalk) return 0.02f;
 	else return -0.2f;
-}
-
-float Player::frame_time() const
-{
-	return GetFrameTime();
 }
