@@ -14,7 +14,7 @@ Game::~Game()
 	CloseAudioDevice();
 }
 
-void UpdateCamera(Camera2D* camera, Player* player, int screenWidth, int screenHeight)
+void Game::UpdateCamera(Camera2D* camera, Player* player)
 {
     Vector2D diff{ player->GetPosition().Subtract(camera->target) };
 
@@ -24,7 +24,7 @@ void UpdateCamera(Camera2D* camera, Player* player, int screenWidth, int screenH
 
     if (diff.Length() > 10.0f)
     {
-        camera->offset = Vector2D{ screenWidth / 2.0f,  screenHeight / 2.0f };
+        camera->offset = Vector2D{ _screenWidth / 2.0f,  _screenHeight / 2.0f };
         camera->target = Vector2D{ camera->target }.Add(diff.Scale(speed * GetFrameTime() / diff.Length()));
     }
 }
@@ -33,7 +33,7 @@ void Game::Run()
 {
     SetTargetFPS(60);
 
-    GameScreen currentScreen{ GameScreen::LOGO };
+    Screen currentScreen{ Screen::LOGO };
 
     int framesCounter{ 0 };
 
@@ -45,16 +45,16 @@ void Game::Run()
     {
         switch (currentScreen)
         {
-        case GameScreen::LOGO:
+        case Screen::LOGO:
         {
             framesCounter++;
 
-            if (framesCounter > 180) currentScreen = GameScreen::TITLE;
+            if (framesCounter > 180) currentScreen = Screen::TITLE;
             
         } break;
-        case GameScreen::TITLE:
+        case Screen::TITLE:
         {
-            if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) currentScreen = GameScreen::GAMEPLAY;
+            if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) currentScreen = Screen::GAMEPLAY;
 
         } break;
         default: break;
@@ -66,20 +66,20 @@ void Game::Run()
 
         switch (currentScreen)
         {
-        case GameScreen::LOGO:
+        case Screen::LOGO:
         {
             DrawText("Walking", 120, 220, 80, BLACK);
 
         } break;
-        case GameScreen::TITLE:
+        case Screen::TITLE:
         {
             DrawText("Walking", 15, 20, 40, BLACK);
             DrawText("PRESS ENTER or TAP to Walking!", 80, 220, 20, BLACK);
 
         } break;
-        case GameScreen::GAMEPLAY:
+        case Screen::GAMEPLAY:
         {
-            UpdateCamera(&_camera, &gameObj.wildan, _screenWidth, _screenHeight);
+            UpdateCamera(&_camera, &gameObj.wildan);
             _camera.BeginMode();
             gameObj.CheckCollision();
             gameObj.PlayWalkSound();
