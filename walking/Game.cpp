@@ -79,14 +79,14 @@ void Game::Run()
         } break;
         case Screen::GAMEPLAY:
         {
-            UpdateCamera(&_camera, &gameObj.wildan);
+            UpdateCamera(&_camera, &gameObj.player);
             _camera.BeginMode();
             gameObj.CheckCollision();
             gameObj.PlayWalkSound();
             gameObj.Draw(GetFrameTime());
             _camera.EndMode();
 
-            DrawText(gameObj.wildan.GetPosition().ToString().c_str(), 10, _screenHeight - 35, 30, BLACK);
+            DrawText(gameObj.player.GetPosition().ToString().c_str(), 10, _screenHeight - 35, 30, BLACK);
             DrawFPS(_screenWidth - 30, 10);
 
         } break;
