@@ -4,9 +4,9 @@
 
 // ---------------- Public Functions ------------------------------------------
 
-Player::Player(const Vector2D& pos)
+Player::Player() : _texturePos{ 40.0f, 140.0f }
 {
-	_texturePos = pos;
+
 }
 
 Player::~Player()

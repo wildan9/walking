@@ -9,7 +9,7 @@
 
 struct GameObject
 {
-    Player player{ { 40.0f, 140.0f } };
+    Player player{};
     Map map;
     Prop prop;
     Animals animals;

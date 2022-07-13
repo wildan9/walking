@@ -7,7 +7,7 @@
 class Player : public BaseAnimation
 {
 public:
-	Player(const Vector2D& pos);
+	Player();
 	~Player();
 	Vector2D GetPosition() const;
 	void SetPosition(const Vector2D& pos);
