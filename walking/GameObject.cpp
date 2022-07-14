@@ -31,7 +31,11 @@ void GameObject::CheckCollision()
 
     for (auto& rhino : animals.rhinos)
     {
-        if (CheckCollisionRecs(player.GetCollision(), rhino.GetCollision()))
+        if (CheckCollisionRecs(player.GetCollision(), rhino.GetCollision()) && player.GetSpeed() == 2.0f)
+        {
+            rhino.UpdatePosition(&player);
+        }
+        else if (CheckCollisionRecs(player.GetCollision(), rhino.GetCollision()) && player.GetSpeed() == 4.0f)
         {
             player.Stop();
         }

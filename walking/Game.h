@@ -23,4 +23,5 @@ public:
 private:
 	raylib::Camera2D _camera{};
 	void UpdateCamera(Camera2D* camera, Player* player);
+	void DrawGamePlayHUD(Player* player);
 };

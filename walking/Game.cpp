@@ -14,6 +14,19 @@ Game::~Game()
 	CloseAudioDevice();
 }
 
+void Game::DrawGamePlayHUD(Player* player)
+{
+    std::string strFPS{ "FPS: " };
+    std::string strStatus{};
+
+    if (player->GetDirection().Length() == NULL) strStatus = "Status: IDLE";
+    else strStatus = (player->GetSpeed() == 4.0f) ? "Status: Walk Fast" : "Status: Walk Slow";
+
+    DrawText(player->GetPosition().ToString().c_str(), 10, _screenHeight - 50, 24, BLACK);
+    DrawText(strFPS.append(std::to_string(GetFPS())).c_str(), _screenWidth - 80, 10, 18, RED);
+    DrawText(strStatus.c_str(), _screenWidth - 165, _screenHeight - 40, 19, RED);
+}
+
 void Game::UpdateCamera(Camera2D* camera, Player* player)
 {
     Vector2D diff{ player->GetPosition().Subtract(camera->target) };
@@ -92,8 +105,7 @@ void Game::Run()
             gameObj.Draw(GetFrameTime());
             _camera.EndMode();
 
-            DrawText(gameObj.player.GetPosition().ToString().c_str(), 10, _screenHeight - 35, 30, BLACK);
-            DrawFPS(_screenWidth - 30, 10);
+            DrawGamePlayHUD(&gameObj.player);
 
         } break;
         default: break;

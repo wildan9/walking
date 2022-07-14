@@ -1,7 +1,8 @@
 /* by Wildan R. */
 
-#include "Animation.h"
 #include <array>
+#include "Player.h"
+#include "Animation.h"
 
 class Rhino : public BaseAnimation
 {
@@ -16,6 +17,8 @@ public:
 		UnloadTexture(_texture);
 	}
 
+	void UpdatePosition(Player* player);
+
 	void Draw(const float& deltaTime);
 
 	Rectangle GetCollision();
@@ -23,7 +26,13 @@ public:
 private:
 	Texture2D _texture{ LoadTexture("textures/animals/rhino_idle.png") };
 	Vector2D _texturePos{};
+	float _speed{ 2.0f };
 };
+
+inline void Rhino::UpdatePosition(Player* player)
+{
+	_texturePos.x = (player->GetFacing() == 1.0f) ? _texturePos.x += _speed : _texturePos.x -= _speed;
+}
 
 inline void Rhino::Draw(const float& deltaTime)
 {
