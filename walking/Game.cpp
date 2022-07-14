@@ -22,6 +22,12 @@ void Game::UpdateCamera(Camera2D* camera, Player* player)
 
     speed = (speed == 2.0f) ? fmaxf(0.8f * diff.Length(), 70.0f) : fmaxf(0.8f * diff.Length(), 240.0f);
 
+    if (player->IsTeleport()) // don't need cinematic effect when teleporting
+    {
+        camera->target = player->GetPosition();
+        player->SetTeleportStatus(0);
+    }
+
     if (diff.Length() > 10.0f)
     {
         camera->offset = Vector2D{ _screenWidth / 2.0f,  _screenHeight / 2.0f };

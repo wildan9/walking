@@ -10,26 +10,27 @@ public:
 	Player();
 	~Player();
 	Vector2D GetPosition() const;
-	void SetPosition(const Vector2D& pos);
+	Vector2D GetDirection() const;
 	Rectangle GetCollision() const;
+	bool IsTeleport() const; // don't need cinematic effect when teleporting
+	bool IsPunch() const;
 	float GetFacing() const;
 	float GetSpeed() const;
-	bool IsPunch() const;
+	void SetPosition(const Vector2D& pos);
+	void SetTeleportStatus(bool status); // don't need cinematic effect when teleporting
 	void Stop();
 	void OnLand();
 	void OnWater();
 	void Draw();
 
 private:
-	bool _isWalk{ 0 };
-	float _timer{};
-	float _facing{ 1.0f };
+	bool _isWalk{ 0 }, _isTeleport{ 0 };
+	float _timer{}, _facing{ 1.0f };
 	float row() const;
 	float timer() const;
 	const float _updateTime{ 0.0834f };
 	Vector2D _texturePos{};
 	Vector2D _textureLastPos{};
-	Vector2D direction() const;
 	Sound _landStep{ LoadSound("sounds/land_step.wav") };
 	Sound _waterStep{ LoadSound("sounds/water_step.wav") };
 	Texture2D _texture{ LoadTexture("textures/character/friendly_man_idle.png") };

@@ -9,10 +9,10 @@
 
 struct GameObject
 {
+    Map map{};
+    Prop prop{};
     Player player{};
-    Map map;
-    Prop prop;
-    Animals animals;
+    Animals animals{};
     void PlayWalkSound();
     void CheckCollision();
     void Draw(float deltaTime);
@@ -29,12 +29,12 @@ inline void GameObject::PlayWalkSound()
 
 inline void GameObject::CheckCollision()
 {
-    if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) && 
+    if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) &&
         player.IsPunch() && (player.GetFacing() == 1.0f && animals.crocodile.GetFacing() >= -1.0f &&
-        player.GetPosition().x < animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
+            player.GetPosition().x < animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
     else if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) &&
         player.IsPunch() && (player.GetFacing() == -1.0f && animals.crocodile.GetFacing() >= -1.0f &&
-        player.GetPosition().x > animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
+            player.GetPosition().x > animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
     else animals.crocodile.Walk();
 
     for (auto& rhino : animals.rhinos) if (CheckCollisionRecs(player.GetCollision(), rhino.GetCollision())) player.Stop();
@@ -44,13 +44,21 @@ inline void GameObject::CheckCollision()
 
     for (auto& invisibleFence : invisibleFences)
     {
-        if (CheckCollisionRecs(player.GetCollision(), 
+        if (CheckCollisionRecs(player.GetCollision(),
             Rectangle{ invisibleFence.x, invisibleFence.y, invisibleFence.width, invisibleFence.height })) player.Stop();
     }
 
-    if (CheckCollisionRecs(player.GetCollision(), prop.naturalObj.GetBigStone1Coll())) player.SetPosition(Vector2D{ 3000.0f, 300.0f });
+    if (CheckCollisionRecs(player.GetCollision(), prop.naturalObj.GetBigStone1Coll()))
+    {
+        player.SetPosition({ 3400.0f - 80.0f, 600.0f });
+        player.SetTeleportStatus(1);
+    }
 
-    if (CheckCollisionRecs(player.GetCollision(), prop.naturalObj.GetBigStone2Coll())) player.SetPosition(Vector2D{ 40.0f, 140.0f });
+    if (CheckCollisionRecs(player.GetCollision(), prop.naturalObj.GetBigStone2Coll()))
+    {
+        player.SetPosition({ 1600.0f - 80.0f, 700.0f });
+        player.SetTeleportStatus(1);
+    }
 }
 
 inline void GameObject::Draw(float deltaTime)

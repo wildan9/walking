@@ -24,9 +24,16 @@ Vector2D Player::GetPosition() const
 	return _texturePos;
 }
 
-void Player::SetPosition(const Vector2D& pos)
+Vector2D Player::GetDirection() const
 {
-	_texturePos = pos;
+	Vector2D direction{};
+
+	if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) direction.x -= 1.0f;
+	if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) direction.x += 1.0f;
+	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) direction.y -= 1.0f;
+	if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) direction.y += 1.0f;
+
+	return direction;
 }
 
 Rectangle Player::GetCollision() const
@@ -45,14 +52,29 @@ float Player::GetFacing() const
 
 float Player::GetSpeed() const
 {
-	if (IsKeyDown(KEY_SPACE)) return 4.0f; // walk fast
+	if (IsKeyDown(KEY_SPACE) && GetDirection().Length() != NULL) return 4.0f; // walk fast
 	else return 2.0f; // walk slow
+}
+
+bool Player::IsTeleport() const
+{
+	return _isTeleport;
 }
 
 bool Player::IsPunch() const
 {
 	if (IsKeyDown(KEY_E) && !_isWalk) return 1;
 	else return 0;
+}
+
+void Player::SetPosition(const Vector2D& pos)
+{
+	_texturePos = pos;
+}
+
+void Player::SetTeleportStatus(bool status)
+{
+	_isTeleport = status;
 }
 
 void Player::Stop()
@@ -88,13 +110,13 @@ void Player::Draw()
 {
 	_textureLastPos = _texturePos;
 
-	if (direction().Length() != 0.0f)
+	if (GetDirection().Length() != NULL)
 	{
 		_isWalk = 1;
-		_texturePos = _texturePos.Subtract(direction().Normalize().Scale(GetSpeed()));
+		_texturePos = _texturePos.Subtract(GetDirection().Normalize().Scale(GetSpeed()));
 		_texture = _textureWalk;
-		if (direction().x < 0.0f) _facing = 1.0f;
-		if (direction().x > 0.0f) _facing = -1.0f;
+		if (GetDirection().x < 0.0f) _facing = 1.0f;
+		if (GetDirection().x > 0.0f) _facing = -1.0f;
 	}
 	else
 	{
@@ -108,18 +130,6 @@ void Player::Draw()
 }
 
 // ---------------- Private Functions ------------------------------------------
-
-Vector2D Player::direction() const
-{
-	Vector2D direction{};
-
-	if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) direction.x -= 1.0f;
-	if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) direction.x += 1.0f;
-	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) direction.y -= 1.0f;
-	if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) direction.y += 1.0f;
-
-	return direction;
-}
 
 float Player::row() const
 {
