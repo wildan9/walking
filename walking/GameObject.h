@@ -7,8 +7,9 @@
 #include "Animal.cpp"
 #include "Prop.cpp"
 
-struct GameObject
+class GameObject
 {
+public:
     Map map{};
     Prop prop{};
     Player player{};
@@ -16,6 +17,14 @@ struct GameObject
     void PlayWalkSound();
     void CheckCollision();
     void Draw(float deltaTime);
+
+private:
+    inline bool GameObject::on_touch(Player* player, const float targetFacing, const float targetPosX)
+    {
+        if (player->GetFacing() == 1.0f && targetFacing >= -1.0f && player->GetPosition().x < targetPosX) return 1;
+        else if (player->GetFacing() == -1.0f && targetFacing >= -1.0f && player->GetPosition().x > targetPosX) return 1;
+        else return 0;
+    }
 };
 
 inline void GameObject::PlayWalkSound()
@@ -30,12 +39,14 @@ inline void GameObject::PlayWalkSound()
 inline void GameObject::CheckCollision()
 {
     if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) &&
-        player.IsPunch() && (player.GetFacing() == 1.0f && animals.crocodile.GetFacing() >= -1.0f &&
-            player.GetPosition().x < animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
-    else if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) &&
-        player.IsPunch() && (player.GetFacing() == -1.0f && animals.crocodile.GetFacing() >= -1.0f &&
-            player.GetPosition().x > animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
-    else animals.crocodile.Walk();
+        player.IsPunch() && on_touch(&player, animals.crocodile.GetFacing(), animals.crocodile.GetPosition().x))
+    {
+        animals.crocodile.Hurt();
+    }
+    else
+    {
+        animals.crocodile.Walk();
+    }
 
     for (auto& rhino : animals.rhinos) if (CheckCollisionRecs(player.GetCollision(), rhino.GetCollision())) player.Stop();
 
