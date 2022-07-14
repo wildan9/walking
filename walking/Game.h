@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreLib.h"
-#include "Camera2D.h"
 #include "GameObject.h"
 
 class GameScreen
