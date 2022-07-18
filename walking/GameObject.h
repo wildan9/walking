@@ -19,7 +19,7 @@ public:
     void Draw(float deltaTime);
 
 private:
-    inline bool GameObject::on_touch(Player* player, const float targetFacing, const float targetPosX)
+    inline bool GameObject::OnTouch(Player* player, const float targetFacing, const float targetPosX)
     {
         if (player->GetFacing() == 1.0f && targetFacing >= -1.0f && player->GetPosition().x < targetPosX) return 1;
         else if (player->GetFacing() == -1.0f && targetFacing >= -1.0f && player->GetPosition().x > targetPosX) return 1;

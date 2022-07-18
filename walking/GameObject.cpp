@@ -20,7 +20,7 @@ void GameObject::PlayWalkSound()
 void GameObject::CheckCollision()
 {
     if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) &&
-        player.IsPunch() && on_touch(&player, animals.crocodile.GetFacing(), animals.crocodile.GetPosition().x))
+        player.IsPunch() && OnTouch(&player, animals.crocodile.GetFacing(), animals.crocodile.GetPosition().x))
     {
         animals.crocodile.Hurt();
     }

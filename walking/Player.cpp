@@ -4,7 +4,8 @@
 
 // ---------------- Public Functions ------------------------------------------
 
-Player::Player() : _texturePos{ 40.0f, 140.0f }
+Player::Player() 
+	: _texturePos{ 40.0f, 140.0f }
 {
 
 }
@@ -40,7 +41,7 @@ Rectangle Player::GetCollision() const
 {
 	return Rectangle{
 		_texturePos.x, _texturePos.y,
-		1.5f * (float)_texture.width / row(),
+		1.5f * (float)_texture.width / Row(),
 		1.5f * (float)_texture.height
 	};
 }
@@ -126,19 +127,19 @@ void Player::Draw()
 
 	if (IsPunch()) _texture = _texturePunch;
 
-	Animate(_texturePos, _texture, GetFrameTime(), 1.5f, row(), _facing, timer());
+	Animate(_texturePos, _texture, GetFrameTime(), 1.5f, Row(), _facing, Timer());
 }
 
 // ---------------- Private Functions ------------------------------------------
 
-float Player::row() const
+float Player::Row() const
 {
 	if (IsPunch() && !_isWalk) return 3.0f;
 	else if (!_isWalk) return 2.0f;
 	else if (_isWalk) return 6.0f;
 }
 
-float Player::timer() const
+float Player::Timer() const
 {
 	if (_isWalk) return 0.0f;
 	else if (IsPunch() && !_isWalk) return 0.02f;

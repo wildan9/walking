@@ -26,8 +26,8 @@ public:
 private:
 	bool _isWalk{ 0 }, _isTeleport{ 0 };
 	float _timer{}, _facing{ 1.0f };
-	float row() const;
-	float timer() const;
+	float Row() const;
+	float Timer() const;
 	const float _updateTime{ 0.0834f };
 	Vector2D _texturePos{};
 	Vector2D _textureLastPos{};
