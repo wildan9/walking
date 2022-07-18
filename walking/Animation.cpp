@@ -7,7 +7,7 @@ BaseAnimation::BaseAnimation()
 
 }
 
-void BaseAnimation::Animate(Vector2D& position, Texture2D& texture, const float& deltaTime, const float& size, const float& row, float facing, float timer, bool animate, float rotation)
+void BaseAnimation::Animate(Vector2D& position, Texture2D& texture, const float deltaTime, const float size, const float row, float facing, float timer, bool animate, float rotation)
 {
     if (animate)
     {

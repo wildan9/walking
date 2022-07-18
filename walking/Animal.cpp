@@ -19,7 +19,7 @@ public:
 
 	void UpdatePosition(Player* player);
 
-	void Draw(const float& deltaTime);
+	void Draw(const float deltaTime);
 
 	Rectangle GetCollision();
 
@@ -34,7 +34,7 @@ inline void Rhino::UpdatePosition(Player* player)
 	_texturePos.x = (player->GetFacing() == 1.0f) ? _texturePos.x += _speed : _texturePos.x -= _speed;
 }
 
-inline void Rhino::Draw(const float& deltaTime)
+inline void Rhino::Draw(const float deltaTime)
 {
 	Animate(_texturePos, _texture, deltaTime, 2.0f, 8.0f);
 }
@@ -62,7 +62,7 @@ public:
 		UnloadTexture(_texture);
 	}
 
-	void Draw(const float& deltaTime, const float& flyRadius);
+	void Draw(const float deltaTime, const float flyRadius);
 
 private:
 	Texture2D _texture{ LoadTexture("textures/animals/bat_fly.png") };
@@ -71,7 +71,7 @@ private:
 	float _facing{ 1.0f };
 };
 
-inline void Bat::Draw(const float& deltaTime, const float& flyRadius)
+inline void Bat::Draw(const float deltaTime, const float flyRadius)
 {
 	if (true)
 	{
@@ -102,7 +102,7 @@ public:
 		UnloadTexture(_texture);
 	}
 
-	void Draw(const float& deltaTime);
+	void Draw(const float deltaTime);
 
 private:
 	const float _speed{ 1.0f };
@@ -112,7 +112,7 @@ private:
 	Vector2D _texturePos{};
 };
 
-inline void Chicken::Draw(const float& deltaTime)
+inline void Chicken::Draw(const float deltaTime)
 {
 	int x = 1, y = 0;
 
@@ -222,7 +222,7 @@ public:
 		};
 	}
 
-	void Draw(const float& deltaTime)
+	void Draw(const float deltaTime)
 	{
 		if (_isWalk)
 		{
@@ -273,20 +273,20 @@ public:
 
 	std::array<Bat, 3> bats{ bat1, bat2, bat3 };
 
-	void SetBatFlyRadius(const float& batFlyRadius);
+	void SetBatFlyRadius(const float batFlyRadius);
 
-	void Draw(const float& deltaTime);
+	void Draw(const float deltaTime);
 
 private:
 	float _batFlyRadius{};
 };
 
-inline void Animals::SetBatFlyRadius(const float& batFlyRadius)
+inline void Animals::SetBatFlyRadius(const float batFlyRadius)
 {
 	_batFlyRadius = batFlyRadius;
 }
 
-inline void Animals::Draw(const float& deltaTime)
+inline void Animals::Draw(const float deltaTime)
 {
 	for (auto& rhino : rhinos) rhino.Draw(deltaTime);
 

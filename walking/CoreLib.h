@@ -77,7 +77,7 @@ namespace Math2D
 {
     struct Vector2D : public Vector2
     {
-        Vector2D(const Vector2& vec)
+        Vector2D(const Vector2 vec)
             : Vector2{ vec.x, vec.y }
         {}
 
@@ -96,9 +96,9 @@ namespace Math2D
         float Length() const;
         float DotProduct(const Vector2D& vec) const;
         Vector2D Add(const Vector2D& vec) const;
-        Vector2D Add(const Vector2& vec) const;
+        Vector2D Add(const Vector2 vec) const;
         Vector2D Subtract(const Vector2D& vec) const;
-        Vector2D Subtract(const Vector2& vec) const;
+        Vector2D Subtract(const Vector2 vec) const;
         Vector2D Scale(float scale) const;
         Vector2D Normalize() const;
         Vector2D Rotate(float angle) const;
@@ -120,7 +120,7 @@ namespace Math2D
         return Vector2D{ x + vec.x, y + vec.y };
     }
 
-    inline Vector2D Vector2D::Add(const Vector2& vec) const
+    inline Vector2D Vector2D::Add(const Vector2 vec) const
     {
         return Vector2D{ x + vec.x, y + vec.y };
     }
@@ -130,7 +130,7 @@ namespace Math2D
         return Vector2D{ x - vec.x, y - vec.y };
     }
 
-    inline Vector2D Vector2D::Subtract(const Vector2& vec) const
+    inline Vector2D Vector2D::Subtract(const Vector2 vec) const
     {
         return Vector2D{ x - vec.x, y - vec.y };
     }
