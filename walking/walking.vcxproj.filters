@@ -115,5 +115,8 @@
     <Image Include="textures\natural_objects\big_stone.png">
       <Filter>textures\natural_objects</Filter>
     </Image>
+    <Image Include="textures\animals\rhino_walk.png">
+      <Filter>textures\animals</Filter>
+    </Image>
   </ItemGroup>
 </Project>

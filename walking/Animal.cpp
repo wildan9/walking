@@ -25,18 +25,32 @@ public:
 
 private:
 	Texture2D _texture{ LoadTexture("textures/animals/rhino_idle.png") };
+	Texture2D _textureIdle{ LoadTexture("textures/animals/rhino_idle.png") };
+	Texture2D _textureWalk{ LoadTexture("textures/animals/rhino_walk.png") };
 	Vector2D _texturePos{};
-	float _speed{ 2.0f };
+	Vector2D _speed{ 2.0f, 0.0f };
+	float _row{ 8.0f };
 };
 
 inline void Rhino::UpdatePosition(Player* player)
 {
-	_texturePos.x = (player->GetFacing() == 1.0f) ? _texturePos.x += _speed : _texturePos.x -= _speed;
+	_texturePos = (player->GetFacing() == 1.0f) ? _texturePos.Add(_speed) : _texturePos.Subtract(_speed);
+	
+	if (player->GetDirection().Length() != NULL)
+	{
+		_row = 6.0f;
+		_texture = _textureWalk;
+	}
+	else 
+	{
+		_row = 8.0f;
+		_texture = _textureIdle;
+	}
 }
 
 inline void Rhino::Draw(const float deltaTime)
 {
-	Animate(_texturePos, _texture, deltaTime, 2.0f, 8.0f);
+	Animate(_texturePos, _texture, deltaTime, 2.0f, _row);
 }
 
 inline Rectangle Rhino::GetCollision()
