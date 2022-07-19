@@ -73,18 +73,15 @@ private:
 
 inline void Bat::Draw(const float deltaTime, const float flyRadius)
 {
-	if (true)
-	{
-		_texturePos.x += _speed.x;
-		_texturePos.y += _speed.y;
+	_texturePos.x += _speed.x;
+	_texturePos.y += _speed.y;
 
-		if (_texturePos.x >= flyRadius || _texturePos.x <= 0)
-		{
-			_speed.x *= -1.0f;
-			_facing *= -1.0f;
-		}
-		if (_texturePos.y >= flyRadius || _texturePos.y <= 0) _speed.y *= -1.0f;
+	if (_texturePos.x >= flyRadius || _texturePos.x <= 0)
+	{
+		_speed.x *= -1.0f;
+		_facing *= -1.0f;
 	}
+	if (_texturePos.y >= flyRadius || _texturePos.y <= 0) _speed.y *= -1.0f;
 
 	Animate(_texturePos, _texture, deltaTime, 2.0f, 6.0f);
 }
@@ -257,9 +254,9 @@ private:
 class Animals
 {
 public:
-	Rhino rhino1{ { 800.0f, 120.0f } };
-	Rhino rhino2{ { 950.0f, 80.0f } };
-	Rhino rhino3{ { 650.0f, 100.0f } };
+	Rhino rhino1{ { 2400.0f, 520.0f } };
+	Rhino rhino2{ { 2750.0f, 300.0f } };
+	Rhino rhino3{ { 2850.0f, 900.0f } };
 
 	Bat bat1{ { 111.0f, 111.0f } };
 	Bat bat2{ { 212.0f, 212.0f } };
