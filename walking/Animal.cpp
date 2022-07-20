@@ -281,7 +281,7 @@ private:
 class Animals
 {
 public:
-	Rhino rhino1{ { 20.0f, 420.0f } };
+	Rhino rhino1{ { 2400.0f, 520.0f } };
 	Rhino rhino2{ { 2750.0f, 300.0f } };
 	Rhino rhino3{ { 2850.0f, 900.0f } };
 
