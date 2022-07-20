@@ -35,9 +35,9 @@ void GameObject::CheckCollision()
         {
             rhino.UpdatePosition(&player);
         }
-        else if (CheckCollisionRecs(player.GetCollision(), rhino.GetCollision()) && player.GetSpeed() == 4.0f)
+        else
         {
-            player.Stop();
+            rhino.Idle();
         }
     }
 

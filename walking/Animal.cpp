@@ -15,7 +15,11 @@ public:
 	~Rhino()
 	{
 		UnloadTexture(_texture);
+		UnloadTexture(_textureIdle);
+		UnloadTexture(_textureWalk);
 	}
+
+	void Idle();
 
 	void UpdatePosition(Player* player);
 
@@ -28,28 +32,37 @@ private:
 	Texture2D _textureIdle{ LoadTexture("textures/animals/rhino_idle.png") };
 	Texture2D _textureWalk{ LoadTexture("textures/animals/rhino_walk.png") };
 	Vector2D _texturePos{};
-	Vector2D _speed{ 2.0f, 0.0f };
+	float _speed{ 2.0f };
 	float _row{ 8.0f };
+	bool _isWalk{ 0 };
 };
+
+inline void Rhino::Idle()
+{
+	_isWalk = 0;
+}
 
 inline void Rhino::UpdatePosition(Player* player)
 {
-	_texturePos = (player->GetFacing() == 1.0f) ? _texturePos.Add(_speed) : _texturePos.Subtract(_speed);
-	
-	if (player->GetDirection().Length() != NULL)
+	_isWalk = 1;
+
+	if (_isWalk)
 	{
 		_row = 6.0f;
 		_texture = _textureWalk;
 	}
-	else 
-	{
-		_row = 8.0f;
-		_texture = _textureIdle;
-	}
+
+	_texturePos.x = (player->GetFacing() == 1.0f) ? _texturePos.x += _speed : _texturePos.x -= _speed;
 }
 
 inline void Rhino::Draw(const float deltaTime)
 {
+	if (!_isWalk)
+	{
+		_row = 8.0f;
+		_texture = _textureIdle;
+	}
+
 	Animate(_texturePos, _texture, deltaTime, 2.0f, _row);
 }
 
@@ -268,7 +281,7 @@ private:
 class Animals
 {
 public:
-	Rhino rhino1{ { 2400.0f, 520.0f } };
+	Rhino rhino1{ { 20.0f, 420.0f } };
 	Rhino rhino2{ { 2750.0f, 300.0f } };
 	Rhino rhino3{ { 2850.0f, 900.0f } };
 
