@@ -2,29 +2,13 @@
 
 #include "raylib.h"
 
-struct InvisibleFence
+const Rectangle invisibleFences[]
 {
-	Rectangle GetTreeRectangle1()
-	{
-		return Rectangle{ 980.414f, 280.586f, 150.0f, 560.0f };
-	}
-
-	Rectangle GetTreeRectangle2()
-	{
-		return Rectangle{ GetTreeRectangle1().x + 280.0f, GetTreeRectangle1().y + 180.0f, 150.0f, 450.0f };
-	}
-
-	Rectangle GetFenceRectangle1()
-	{
-		return Rectangle{ 40.0f, 252.0f, 250.0f, 0.2f };
-	}
-
-	Rectangle GetFenceRectangle2()
-	{
-		return Rectangle{ 40.0f, 900.0f, 350.0f, 0.2f };
-	}
+	Rectangle{ 980.414f, 280.586f, 150.0f, 560.0f },
+	Rectangle{ 980.414f + 280.0f, 280.586f + 180.0f, 150.0f, 450.0f },
+	Rectangle{ 40.0f, 252.0f, 250.0f, 0.2f },
+	Rectangle{ 40.0f, 900.0f, 350.0f, 0.2f }
 };
-
 
 class NaturalObject
 {
@@ -36,49 +20,48 @@ public:
 
 	~NaturalObject()
 	{
-		UnloadTexture(m_big_stone);
+		UnloadTexture(_bigStone);
 	}
 
 	Rectangle GetBigStone1Coll()
 	{
 		return Rectangle{
-			static_cast<float>(m_big_stone1_pos.x + 45.0f),
-			static_cast<float>(m_big_stone1_pos.y + 35.0f),
-			static_cast<float>(m_big_stone.width * 0.65f),
-			static_cast<float>(m_big_stone.height * 0.65f)
+			static_cast<float>(_bigStone1Pos.x + 45.0f),
+			static_cast<float>(_bigStone1Pos.y + 35.0f),
+			static_cast<float>(_bigStone.width * 0.65f),
+			static_cast<float>(_bigStone.height * 0.65f)
 		};
 	}
 
 	Rectangle GetBigStone2Coll()
 	{
 		return Rectangle{
-			static_cast<float>(m_big_stone2_pos.x + 45.0f),
-			static_cast<float>(m_big_stone2_pos.y + 35.0f),
-			static_cast<float>(m_big_stone.width * 0.65f),
-			static_cast<float>(m_big_stone.height * 0.65f)
+			static_cast<float>(_bigStone2Pos.x + 45.0f),
+			static_cast<float>(_bigStone2Pos.y + 35.0f),
+			static_cast<float>(_bigStone.width * 0.65f),
+			static_cast<float>(_bigStone.height * 0.65f)
 		};
 	}
 
 	void Draw()
 	{
-		DrawTextureV(m_big_stone, m_big_stone1_pos, WHITE);
-		DrawTextureV(m_big_stone, m_big_stone2_pos, WHITE);
+		DrawTextureV(_bigStone, _bigStone1Pos, WHITE);
+		DrawTextureV(_bigStone, _bigStone2Pos, WHITE);
 	}
 
 private:
-	Texture2D m_big_stone{ LoadTexture("textures/natural_objects/big_stone.png") };
-	Vector2 m_big_stone1_pos{ 1600.0f, 700.0f };
-	Vector2 m_big_stone2_pos{ 3400.0f, 600.0f };
+	Texture2D _bigStone{ LoadTexture("textures/natural_objects/big_stone.png") };
+	Vector2 _bigStone1Pos{ 1600.0f, 700.0f };
+	Vector2 _bigStone2Pos{ 3400.0f, 600.0f };
 };
 
 
 struct Prop
 {
-	InvisibleFence invisible_fence;
-	NaturalObject natural_obj;
+	NaturalObject naturalObj;
 
 	void Draw()
 	{
-		natural_obj.Draw();
+		naturalObj.Draw();
 	}
 };

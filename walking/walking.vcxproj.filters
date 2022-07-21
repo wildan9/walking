@@ -39,13 +39,7 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2s.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GetterSetter.h">
+    <ClInclude Include="CoreLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

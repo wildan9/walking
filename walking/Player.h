@@ -3,39 +3,36 @@
 #pragma once
 
 #include "Animation.h"
-#include "Vector2s.h"
 
 class Player : public BaseAnimation
 {
 public:
-	Player(Vector2& pos);
+	Player();
 	~Player();
-	Vector2 GetPosition() const;
-	void SetPosition(Vector2& pos);
+	Vector2D GetPosition() const;
+	Vector2D GetDirection() const;
 	Rectangle GetCollision() const;
-	float GetFacing() const;
 	bool IsPunch() const;
+	float GetFacing() const;
+	float GetSpeed() const;
+	void SetPosition(const Vector2D& pos);
 	void Stop();
 	void OnLand();
 	void OnWater();
 	void Draw();
 
 private:
-	bool m_is_walk{ 0 };
-	float m_timer{};
-	float m_facing{ 1.0f };
-	const float m_update_time{ 0.0834f };
-	Vector2s m_texture_pos;
-	Vector2 m_texture_last_pos{};
-	Vector2s direction() const;
-	Texture2D m_texture{ LoadTexture("textures/character/friendly_man_idle.png") };
-	Texture2D m_texture_idle{ LoadTexture("textures/character/friendly_man_idle.png") };
-	Texture2D m_texture_punch{ LoadTexture("textures/character/friendly_man_punch.png") };
-	Texture2D m_texture_walk{ LoadTexture("textures/character/friendly_man_walk.png") };
-	Sound m_land_step{ LoadSound("sounds/land_step.wav") };
-	Sound m_water_step{ LoadSound("sounds/water_step.wav") };
-	float row() const;
-	float speed() const;
-	float timer() const;
-	float frame_time() const;
+	bool _isWalk{ 0 }, _isTeleport{ 0 };
+	float _timer{}, _facing{ 1.0f };
+	float Row() const;
+	float Timer() const;
+	const float _updateTime{ 0.0834f };
+	Vector2D _texturePos{};
+	Vector2D _textureLastPos{};
+	Sound _landStep{ LoadSound("sounds/land_step.wav") };
+	Sound _waterStep{ LoadSound("sounds/water_step.wav") };
+	Texture2D _texture{ LoadTexture("textures/character/friendly_man_idle.png") };
+	Texture2D _textureIdle{ LoadTexture("textures/character/friendly_man_idle.png") };
+	Texture2D _texturePunch{ LoadTexture("textures/character/friendly_man_punch.png") };
+	Texture2D _textureWalk{ LoadTexture("textures/character/friendly_man_walk.png") };
 };
