@@ -341,12 +341,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Camera2D.h" />
+    <ClInclude Include="CoreLib.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="GetterSetter.h" />
-    <ClInclude Include="Vector2s.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="sounds\getting_punched.wav" />

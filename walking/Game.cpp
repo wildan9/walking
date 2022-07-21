@@ -4,9 +4,8 @@
 
 Game::Game()
 {
-	InitWindow(m_window_width, m_window_height, m_window_title.c_str());
+	InitWindow(_screenWidth, _screenHeight, "Walking");
 	InitAudioDevice();
-	SetTargetFPS(60);
 }
 
 Game::~Game()
@@ -17,7 +16,9 @@ Game::~Game()
 
 void Game::Run()
 {
-	Player wildan{ Vector2{40.0f, 140.0f} };
+	SetTargetFPS(60);
+
+	Player player{};
 
 	Animals animals;
 
@@ -27,59 +28,60 @@ void Game::Run()
 
 	Prop props;
 
-	m_camera.target = wildan.GetPosition();
-	m_camera.offset = Vector2{ m_window_width / 2.0f,  m_window_height / 2.0f };
-	m_camera.rotation = 0.0f;
-	m_camera.zoom = 1.0f;
+	_camera.target = player.GetPosition();
+	_camera.offset = Vector2{ _screenWidth / 2.0f,  _screenHeight / 2.0f };
+	_camera.rotation = 0.0f;
+	_camera.zoom = 1.0f;
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
 		ClearBackground(SKYBLUE);
-		
-		m_camera.target = wildan.GetPosition();
-		m_camera.BeginMode();
+
+		_camera.target = player.GetPosition();
+		_camera.BeginMode();
 
 		map.Draw();
 
-		if (wildan.GetPosition().x < -15.0f || wildan.GetPosition().y < 0.0f || 
-			wildan.GetPosition().x > ((float)map.GetDreamlandSize().width - 15.0f) * map.GetMapScale() &&
-			wildan.GetPosition().x < (float)map.GetDreamlandSize().width + 1500.0f ||
-			wildan.GetPosition().y > (float)map.GetDreamlandSize().height * map.GetMapScale()) wildan.OnWater();
-		else wildan.OnLand();
+		if (player.GetPosition().x < -15.0f || player.GetPosition().y < 0.0f ||
+			player.GetPosition().x > ((float)map.GetDreamlandSize().width - 15.0f) * map.GetMapScale() &&
+			player.GetPosition().x < (float)map.GetDreamlandSize().width + 1500.0f ||
+			player.GetPosition().y > (float)map.GetDreamlandSize().height * map.GetMapScale()) player.OnWater();
+		else player.OnLand();
 
-		wildan.Draw();
+		player.Draw();
 
 		animals.Draw(GetFrameTime());
 
 		props.Draw();
 
-		if (CheckCollisionRecs(wildan.GetCollision(), animals.crocodile.GetCollision()) &&
-			wildan.IsPunch() && (wildan.GetFacing() == 1.0f && animals.crocodile.GetFacing() >= -1.0f &&
-			wildan.GetPosition().x < animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
-		else if (CheckCollisionRecs(wildan.GetCollision(), animals.crocodile.GetCollision()) &&
-			wildan.IsPunch() && (wildan.GetFacing() == -1.0f && animals.crocodile.GetFacing() >= -1.0f &&
-			wildan.GetPosition().x > animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
+		if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) &&
+			player.IsPunch() && (player.GetFacing() == 1.0f && animals.crocodile.GetFacing() >= -1.0f &&
+			player.GetPosition().x < animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
+		else if (CheckCollisionRecs(player.GetCollision(), animals.crocodile.GetCollision()) &&
+			player.IsPunch() && (player.GetFacing() == -1.0f && animals.crocodile.GetFacing() >= -1.0f &&
+			player.GetPosition().x > animals.crocodile.GetPosition().x)) animals.crocodile.Hurt();
 		else animals.crocodile.Walk();
 
-		if (CheckCollisionRecs(wildan.GetCollision(), animals.rhino1.GetRectColl()) ||
-			CheckCollisionRecs(wildan.GetCollision(), animals.rhino2.GetRectColl()) ||
-			CheckCollisionRecs(wildan.GetCollision(), animals.rhino3.GetRectColl())) wildan.Stop();
+		for (auto& rhino : animals.rhinos) if (CheckCollisionRecs(player.GetCollision(), rhino.GetCollision())) player.Stop();
 
-		if (CheckCollisionRecs(wildan.GetCollision(), map.GetMapLine1()) ||
-			CheckCollisionRecs(wildan.GetCollision(), map.GetMapLine2())) wildan.Stop();
+		if (CheckCollisionRecs(player.GetCollision(), map.GetMapLine1()) ||
+			CheckCollisionRecs(player.GetCollision(), map.GetMapLine2())) player.Stop();
 
-		if (CheckCollisionRecs(wildan.GetCollision(), props.invisible_fence.GetFenceRectangle1()) ||
-			CheckCollisionRecs(wildan.GetCollision(), props.invisible_fence.GetFenceRectangle2())) wildan.Stop();
+		for (const auto& invisibleFence : invisibleFences)
+		{
+			if (CheckCollisionRecs(player.GetCollision(),
+				Rectangle{ invisibleFence.x, invisibleFence.y, invisibleFence.width, invisibleFence.height }))
+			{
+				player.Stop();
+			}
+		}
 
-		if (CheckCollisionRecs(wildan.GetCollision(), props.invisible_fence.GetTreeRectangle1()) ||
-			CheckCollisionRecs(wildan.GetCollision(), props.invisible_fence.GetTreeRectangle2())) wildan.Stop();
+		if (CheckCollisionRecs(player.GetCollision(), props.naturalObj.GetBigStone1Coll())) player.SetPosition({ 3000.0f, 300.0f });
 
-		if (CheckCollisionRecs(wildan.GetCollision(), props.natural_obj.GetBigStone1Coll())) wildan.SetPosition(Vector2{ 3000.0f, 300.0f });
+		if (CheckCollisionRecs(player.GetCollision(), props.naturalObj.GetBigStone2Coll())) player.SetPosition({ 40.0f, 140.0f });
 
-		if (CheckCollisionRecs(wildan.GetCollision(), props.natural_obj.GetBigStone2Coll())) wildan.SetPosition(Vector2{ 40.0f, 140.0f });
-
-		m_camera.EndMode();
+		_camera.EndMode();
 		EndDrawing();
 	}
 }
