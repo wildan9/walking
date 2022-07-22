@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Audio.h"
 #include "CoreLib.h"
 #include "GameObject.h"
 

@@ -333,6 +333,7 @@
   <ItemGroup>
     <ClCompile Include="Animal.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
@@ -342,6 +343,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="CoreLib.h" />
     <ClInclude Include="Game.h" />
