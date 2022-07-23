@@ -2,57 +2,45 @@
 
 #include "Audio.h"
 
-bool muted{ 0 };
+float masterVolume{ 0.2f };
 
-std::vector<Sound> sounds;
-
-int8_t LoadSoundFile(const char* sound)
+void SetVolume(float volume)
 {
-	sounds.push_back(LoadSound(sound));
-	return int8_t(sounds.size() - 1);
+	SetMasterVolume(volume);
 }
 
-void InitAudio()
+void UpdateAudioDevice()
 {
-	InitAudioDevice();
-
-	LoadSoundFile("sounds/land_step.wav");
-	LoadSoundFile("sounds/water_step.wav");
-	LoadSoundFile("sounds/getting_punched.wav");
-}
-
-void ShutdownAudio()
-{
-	for (const auto& sound : sounds)
+	if (IsKeyPressed(KEY_L) && masterVolume < 0.5f)
 	{
-		UnloadSound(sound);
+		masterVolume += 0.1f;
 	}
 
-	sounds.clear();
-	
-	if (sounds.empty())
+	if (IsKeyPressed(KEY_K) && masterVolume > 0.0f)
 	{
-		CloseAudioDevice();
+		masterVolume -= 0.1f;
 	}
-}
 
-void PlaySound(const int8_t& sound)
-{
-	if (!muted)
+	if (masterVolume < 0.0f)
 	{
-		PlaySound(sounds[sound]);
+		masterVolume = 0.0f;
 	}
-}
 
-void UpdateAudio()
-{
+	SetVolume(masterVolume);
+
 	if (IsKeyPressed(KEY_M))
 	{
-		muted = !muted;
+		masterVolume = (masterVolume == 0.0f) ? masterVolume = 0.2f : masterVolume = 0.0f;
 	}
+}
+
+float GetMasterVolume()
+{
+	return masterVolume;
 }
 
 bool IsMuted()
 {
-	return muted;
+	if (masterVolume == 0.0f) return 1;
+	else return 0;
 }

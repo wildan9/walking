@@ -1,7 +1,6 @@
 /* by Wildan R. */
 
 #include <array>
-#include "Audio.h"
 #include "Player.h"
 #include "Animation.h"
 
@@ -201,6 +200,7 @@ public:
 		UnloadTexture(_texture);
 		UnloadTexture(_textureWalk);
 		UnloadTexture(_textureHurt);
+		UnloadSound(_gettingPunched);
 	}
 
 	Vector2D GetPosition()
@@ -233,7 +233,7 @@ public:
 		if (_timer >= _updateTime)
 		{
 			_timer = -0.32f;
-			PlaySound(gettingPunched);
+			PlaySound(_gettingPunched);
 		}
 	}
 
@@ -274,6 +274,7 @@ private:
 	Texture2D _texture{ LoadTexture("textures/animals/crocodile_walk.png") };
 	Texture2D _textureWalk{ LoadTexture("textures/animals/crocodile_walk.png") };
 	Texture2D _textureHurt{ LoadTexture("textures/animals/crocodile_hurt.png") };
+	Sound _gettingPunched{ LoadSound("sounds/getting_punched.wav") };
 };
 
 

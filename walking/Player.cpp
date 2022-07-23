@@ -16,6 +16,8 @@ Player::~Player()
 	UnloadTexture(_textureIdle);
 	UnloadTexture(_textureWalk);
 	UnloadTexture(_texturePunch);
+	UnloadSound(_landStep);
+	UnloadSound(_waterStep);
 }
 
 Vector2D Player::GetPosition() const
@@ -89,7 +91,7 @@ void Player::OnLand()
 	if (_isWalk && _timer >= _updateTime)
 	{
 		_timer = 0.0f;
-		PlaySound(landStep);
+		PlaySound(_landStep);
 	}
 }
 
@@ -101,7 +103,7 @@ void Player::OnWater()
 	if (_isWalk && _timer >= _updateTime)
 	{
 		_timer = 0.0f;
-		PlaySound(waterStep);
+		PlaySound(_waterStep);
 	}
 }
 

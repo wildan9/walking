@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Audio.h"
 #include "Animation.h"
 
 class Player : public BaseAnimation
@@ -32,6 +31,8 @@ private:
 	const float _updateTime{ 0.0834f };
 	Vector2D _texturePos{};
 	Vector2D _textureLastPos{};
+	Sound _landStep{ LoadSound("sounds/land_step.wav") };
+	Sound _waterStep{ LoadSound("sounds/water_step.wav") };
 	Texture2D _texture{ LoadTexture("textures/character/friendly_man_idle.png") };
 	Texture2D _textureIdle{ LoadTexture("textures/character/friendly_man_idle.png") };
 	Texture2D _texturePunch{ LoadTexture("textures/character/friendly_man_punch.png") };

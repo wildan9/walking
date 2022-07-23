@@ -4,14 +4,14 @@
 
 Game::Game()
 {
-	InitWindow(_screenWidth, _screenHeight, "Walking");
-    InitAudio();
+    InitWindow(_screenWidth, _screenHeight, "Walking");
+    InitAudioDevice();
 }
 
 Game::~Game()
 {
-	CloseWindow();
-    ShutdownAudio();
+    CloseWindow();
+    CloseAudioDevice();
 }
 
 void Game::DrawGamePlayHUD(Player* player)
@@ -19,11 +19,12 @@ void Game::DrawGamePlayHUD(Player* player)
     std::string strFPS{ "FPS: " };
     std::string strStatus{};
 
+    const char* strVolume[7]{ "Muted", "Volume: #", "Volume: # #", "Volume: # # #", "Volume: # # # #", "Volume: # # # # #", "NULL" };
+
     if (player->GetDirection().Length() == NULL) strStatus = "Status: IDLE";
     else strStatus = (player->GetSpeed() == 4.0f) ? "Status: Walk Fast" : "Status: Walk Slow";
 
-    if (IsMuted()) DrawText("Muted", 10, 10, 24, RED);
-
+    DrawText(strVolume[(int8_t)(GetMasterVolume() * 10)], 10, 10, 24, RED);
     DrawText(player->GetPosition().ToString().c_str(), 10, _screenHeight - 50, 24, BLACK);
     DrawText(strFPS.append(std::to_string(GetFPS())).c_str(), _screenWidth - 80, 10, 18, RED);
     DrawText(strStatus.c_str(), _screenWidth - 165, _screenHeight - 40, 19, RED);
@@ -64,7 +65,7 @@ void Game::Run()
 
     while (!WindowShouldClose())
     {
-        UpdateAudio();
+        UpdateAudioDevice();
 
         switch (currentScreen)
         {
