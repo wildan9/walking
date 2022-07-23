@@ -21,11 +21,6 @@ void UpdateAudioDevice()
 		masterVolume -= 0.1f;
 	}
 
-	if (masterVolume < 0.0f)
-	{
-		masterVolume = 0.0f;
-	}
-
 	SetVolume(masterVolume);
 
 	if (IsKeyPressed(KEY_M))
@@ -37,10 +32,4 @@ void UpdateAudioDevice()
 float GetMasterVolume()
 {
 	return masterVolume;
-}
-
-bool IsMuted()
-{
-	if (masterVolume == 0.0f) return 1;
-	else return 0;
 }
