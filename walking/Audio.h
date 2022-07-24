@@ -4,6 +4,5 @@
 
 #include "CoreLib.h"
 
-void  SetVolume(float volume);
 void  UpdateAudioDevice();
 float GetMasterVolume();

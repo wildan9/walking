@@ -5,24 +5,16 @@
 #include "Audio.h"
 #include "CoreLib.h"
 #include "GameObject.h"
+#include "Screen.h"
 
-class GameScreen
+struct Game
 {
-protected:
-	const int _screenWidth{ 512 };
-	const int _screenHeight{ 512 };
-	enum class Screen{ LOGO = 0, TITLE, GAMEPLAY };
-};
-
-class Game : public GameScreen
-{
-public:
-	Game();
-	~Game();
+	void DrawGamePlayScreen(raylib::Camera2D* camera,	GameObject* gameObj);
+	void DrawGamePlayHUD(Player* player);
+	void UpdateCamera(raylib::Camera2D* camera,			Player* player);
 	void Run();
 
-private:
-	raylib::Camera2D _camera{};
-	void UpdateCamera(Camera2D* camera, Player* player);
-	void DrawGamePlayHUD(Player* player);
+	const int _screenWidth		= 512;
+	const int _screenHeight		= 512;
+	raylib::Camera2D _camera	= {};
 };

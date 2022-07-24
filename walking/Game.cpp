@@ -2,16 +2,53 @@
 
 #include "Game.h"
 
-Game::Game()
+enum class ApplicationStates
 {
-    InitWindow(_screenWidth, _screenHeight, "Walking");
-    InitAudioDevice();
-}
+    LOGO = 0,
+    TITLE,
+    GAMEPLAY,
+    PAUSE
+};
+ApplicationStates applicationState{ ApplicationStates::LOGO };
 
-Game::~Game()
+class LogoScreen : public Screen
 {
-    CloseWindow();
-    CloseAudioDevice();
+public:
+    void Draw() override
+    {
+        DrawText("Walking", 120, 220, 80, BLACK);
+    }
+};
+LogoScreen logoScreen;
+
+class TitleScreen : public Screen
+{
+public:
+    void Draw() override
+    {
+        DrawText("Walking", 15, 20, 40, BLACK);
+        DrawText("PRESS ENTER or TAP to Walking!", 80, 220, 20, BLACK);
+    }
+};
+TitleScreen titleScreen;
+
+class PauseScreen : public Screen
+{
+public:
+    void Draw() override
+    {
+        DrawText("Paused", 150, 220, 60, BLACK);
+    }
+};
+PauseScreen pauseScreen;
+
+void Game::DrawGamePlayScreen(raylib::Camera2D* camera, GameObject* gameObj)
+{
+    camera->BeginMode();
+    gameObj->CheckCollision();
+    gameObj->PlayWalkSound();
+    gameObj->Draw(GetFrameTime());
+    camera->EndMode();
 }
 
 void Game::DrawGamePlayHUD(Player* player)
@@ -30,7 +67,7 @@ void Game::DrawGamePlayHUD(Player* player)
     DrawText(strStatus.c_str(), _screenWidth - 165, _screenHeight - 40, 19, RED);
 }
 
-void Game::UpdateCamera(Camera2D* camera, Player* player)
+void Game::UpdateCamera(raylib::Camera2D* camera, Player* player)
 {
     Vector2D diff{ player->GetPosition().Subtract(camera->target) };
 
@@ -53,32 +90,69 @@ void Game::UpdateCamera(Camera2D* camera, Player* player)
 
 void Game::Run()
 {
+    InitWindow(_screenWidth, _screenHeight, "Walking");
+    InitAudioDevice();
+
     SetTargetFPS(60);
 
-    Screen currentScreen{ Screen::LOGO };
-
-    int framesCounter{ 0 };
+    SetActiveScreen(&logoScreen);
 
     GameObject gameObj;
 
     gameObj.animals.SetBatFlyRadius(gameObj.map.GetDreamlandSize().width * gameObj.map.GetMapScale());
 
+    int framesCounter{ 0 };
+
     while (!WindowShouldClose())
     {
         UpdateAudioDevice();
 
-        switch (currentScreen)
+        switch (applicationState)
         {
-        case Screen::LOGO:
+        case ApplicationStates::LOGO:
         {
             framesCounter++;
 
-            if (framesCounter > 180) currentScreen = Screen::TITLE;
-            
+            if (framesCounter > 180)
+            {
+                SetActiveScreen(&titleScreen);
+
+                applicationState = ApplicationStates::TITLE;
+            }
+
         } break;
-        case Screen::TITLE:
+        case ApplicationStates::TITLE:
         {
-            if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) currentScreen = Screen::GAMEPLAY;
+            if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+            {
+                SetActiveScreen(nullptr);
+
+                applicationState = ApplicationStates::GAMEPLAY;
+            }
+
+        } break;
+        case ApplicationStates::GAMEPLAY:
+        {
+            UpdateCamera(&_camera, &gameObj.player);
+            
+            if (IsKeyPressed(KEY_P))
+            {
+                SetActiveScreen(&pauseScreen);
+
+                applicationState = ApplicationStates::PAUSE;
+            }
+
+        } break;
+        case ApplicationStates::PAUSE:
+        {
+            UpdateCamera(&_camera, &gameObj.player);
+
+            if (IsKeyPressed(KEY_P))
+            {
+                SetActiveScreen(nullptr);
+
+                applicationState = ApplicationStates::GAMEPLAY;
+            }
 
         } break;
         default: break;
@@ -88,34 +162,18 @@ void Game::Run()
 
         ClearBackground(SKYBLUE);
 
-        switch (currentScreen)
+        if (applicationState == ApplicationStates::GAMEPLAY)
         {
-        case Screen::LOGO:
-        {
-            DrawText("Walking", 120, 220, 80, BLACK);
-
-        } break;
-        case Screen::TITLE:
-        {
-            DrawText("Walking", 15, 20, 40, BLACK);
-            DrawText("PRESS ENTER or TAP to Walking!", 80, 220, 20, BLACK);
-
-        } break;
-        case Screen::GAMEPLAY:
-        {
-            UpdateCamera(&_camera, &gameObj.player);
-            _camera.BeginMode();
-            gameObj.CheckCollision();
-            gameObj.PlayWalkSound();
-            gameObj.Draw(GetFrameTime());
-            _camera.EndMode();
+            DrawGamePlayScreen(&_camera, &gameObj);
 
             DrawGamePlayHUD(&gameObj.player);
-
-        } break;
-        default: break;
         }
+
+        DrawScreen();
 
         EndDrawing();
     }
+
+    CloseWindow();
+    CloseAudioDevice();
 }

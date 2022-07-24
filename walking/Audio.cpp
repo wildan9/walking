@@ -4,11 +4,6 @@
 
 float masterVolume{ 0.2f };
 
-void SetVolume(float volume)
-{
-	SetMasterVolume(volume);
-}
-
 void UpdateAudioDevice()
 {
 	if (IsKeyPressed(KEY_L) && masterVolume < 0.5f)
@@ -21,12 +16,12 @@ void UpdateAudioDevice()
 		masterVolume -= 0.1f;
 	}
 
-	SetVolume(masterVolume);
-
 	if (IsKeyPressed(KEY_M))
 	{
 		masterVolume = (masterVolume == 0.0f) ? masterVolume = 0.2f : masterVolume = 0.0f;
 	}
+
+	SetMasterVolume(masterVolume);
 }
 
 float GetMasterVolume()
