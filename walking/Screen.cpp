@@ -1,3 +1,5 @@
+/* by Wildan R. */
+
 #include "Screen.h"
 
 Screen* activeScreen = nullptr;
