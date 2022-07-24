@@ -132,9 +132,7 @@ void Game::Run()
 
         } break;
         case ApplicationStates::GAMEPLAY:
-        {
-            UpdateCamera(&_camera, &gameObj.player);
-            
+        {   
             if (IsKeyPressed(KEY_P))
             {
                 SetActiveScreen(&pauseScreen);
@@ -145,8 +143,6 @@ void Game::Run()
         } break;
         case ApplicationStates::PAUSE:
         {
-            UpdateCamera(&_camera, &gameObj.player);
-
             if (IsKeyPressed(KEY_P))
             {
                 SetActiveScreen(nullptr);
@@ -164,6 +160,8 @@ void Game::Run()
 
         if (applicationState == ApplicationStates::GAMEPLAY)
         {
+            UpdateCamera(&_camera, &gameObj.player);
+
             DrawGamePlayScreen(&_camera, &gameObj);
 
             DrawGamePlayHUD(&gameObj.player);
