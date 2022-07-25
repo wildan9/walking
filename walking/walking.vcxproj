@@ -370,6 +370,9 @@
     <Image Include="textures\map\desert.png" />
     <Image Include="textures\map\dreamland.png" />
     <Image Include="textures\natural_objects\big_stone.png" />
+    <Image Include="textures\screens_bg\earth.png" />
+    <Image Include="textures\screens_bg\galaxy.png" />
+    <Image Include="textures\screens_bg\helix_nebula.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,7 +16,7 @@ class LogoScreen : public Screen
 public:
     void Draw() override
     {
-        DrawText("Walking", 120, 220, 80, BLACK);
+        DrawHelixNebula();
     }
 };
 LogoScreen logoScreen;
@@ -26,8 +26,9 @@ class TitleScreen : public Screen
 public:
     void Draw() override
     {
-        DrawText("Walking", 15, 20, 40, BLACK);
-        DrawText("PRESS ENTER or TAP to Walking!", 80, 220, 20, BLACK);
+        DrawEarth();
+        DrawText("Walking", 15, 20, 40, GREEN);
+        DrawText("PRESS ENTER or TAP to Walking!", 80, 220, 20, GREEN);
     }
 };
 TitleScreen titleScreen;
@@ -37,7 +38,8 @@ class PauseScreen : public Screen
 public:
     void Draw() override
     {
-        DrawText("Paused", 150, 220, 60, BLACK);
+        DrawGalaxy();
+        DrawText("Paused", 145, 220, 60, BLUE);
     }
 };
 PauseScreen pauseScreen;
@@ -92,6 +94,8 @@ void Game::Run()
 {
     InitWindow(_screenWidth, _screenHeight, "Walking");
     InitAudioDevice();
+
+    InitScreenTexture();
 
     SetTargetFPS(60);
 
@@ -171,6 +175,8 @@ void Game::Run()
 
         EndDrawing();
     }
+
+    UnloadScreenTexture();
 
     CloseWindow();
     CloseAudioDevice();

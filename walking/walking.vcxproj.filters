@@ -25,6 +25,9 @@
     <Filter Include="textures\natural_objects">
       <UniqueIdentifier>{73ad3561-6261-4706-b2e2-8429c26a98ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="textures\screens_bg">
+      <UniqueIdentifier>{58214bce-7834-4cf6-be3a-9e93cf7ebc73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -129,6 +132,15 @@
     </Image>
     <Image Include="textures\animals\rhino_walk.png">
       <Filter>textures\animals</Filter>
+    </Image>
+    <Image Include="textures\screens_bg\earth.png">
+      <Filter>textures\screens_bg</Filter>
+    </Image>
+    <Image Include="textures\screens_bg\galaxy.png">
+      <Filter>textures\screens_bg</Filter>
+    </Image>
+    <Image Include="textures\screens_bg\helix_nebula.png">
+      <Filter>textures\screens_bg</Filter>
     </Image>
   </ItemGroup>
 </Project>

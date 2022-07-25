@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "raylib.h"
+#include <vector>
+#include "CoreLib.h"
 
 class Screen
 {
@@ -10,8 +11,13 @@ public:
 	virtual void Draw() = 0;
 
 protected:
-	// TODO: Update some variables/functions here
+	void DrawHelixNebula();
+	void DrawEarth();
+	void DrawGalaxy();
 };
 
 void SetActiveScreen(Screen* screen);
 void DrawScreen();
+
+void InitScreenTexture();
+void UnloadScreenTexture();
