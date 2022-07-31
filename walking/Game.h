@@ -3,9 +3,9 @@
 #pragma once
 
 #include "Audio.h"
+#include "Screen.h"
 #include "CoreLib.h"
 #include "GameObject.h"
-#include "Screen.h"
 
 typedef struct { float _lifeTime; } Timer;
 
