@@ -53,7 +53,33 @@ void Game::DrawGamePlayScreen(raylib::Camera2D* camera, GameObject* gameObj)
     camera->EndMode();
 }
 
-void Game::DrawGamePlayHUD(Player* player)
+void StartTimer(Timer* timer, float lifeTime)
+{
+    if (timer != NULL)
+    {
+        timer->_lifeTime = lifeTime;
+    }
+}
+
+void UpdateTimer(Timer* timer)
+{
+    if (timer != NULL && timer->_lifeTime > 0)
+    {
+        timer->_lifeTime -= GetFrameTime();
+    }
+}
+
+bool TimerDone(Timer* timer)
+{
+    if (timer != NULL)
+    {
+        return timer->_lifeTime <= 0;
+    }
+
+    return 0;
+}
+
+void Game::DrawGamePlayHUD(Player* player, Timer* timer)
 {
     std::string strFPS{ "FPS: " };
     std::string strStatus{};
@@ -63,7 +89,11 @@ void Game::DrawGamePlayHUD(Player* player)
     if (player->GetDirection().Length() == NULL) strStatus = "Status: IDLE";
     else strStatus = (player->GetSpeed() == 4.0f) ? "Status: Walk Fast" : "Status: Walk Slow";
 
-    DrawText(strVolume[(int8_t)(GetMasterVolume() * 10)], 10, 10, 24, RED);
+    if (!TimerDone(timer))
+    {
+        DrawText(strVolume[(int8_t)(GetMasterVolume() * 10)], 10, 10, 24, RED);
+    }
+
     DrawText(player->GetPosition().ToString().c_str(), 10, _screenHeight - 50, 24, BLACK);
     DrawText(strFPS.append(std::to_string(GetFPS())).c_str(), _screenWidth - 80, 10, 18, RED);
     DrawText(strStatus.c_str(), _screenWidth - 165, _screenHeight - 40, 19, RED);
@@ -93,7 +123,8 @@ void Game::UpdateCamera(raylib::Camera2D* camera, Player* player)
 void Game::Run()
 {
     InitWindow(_screenWidth, _screenHeight, "Walking");
-    InitAudioDevice();
+    
+    InitAudio();
 
     InitScreenTexture();
 
@@ -107,9 +138,11 @@ void Game::Run()
 
     int framesCounter{ 0 };
 
+    Timer hudTimer{ 0 };
+
     while (!WindowShouldClose())
     {
-        UpdateAudioDevice();
+        UpdateAudio();
 
         switch (applicationState)
         {
@@ -127,11 +160,15 @@ void Game::Run()
         } break;
         case ApplicationStates::TITLE:
         {
+            PlayBGM();
+            
             if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
             {
                 SetActiveScreen(nullptr);
 
                 applicationState = ApplicationStates::GAMEPLAY;
+                
+                PauseBGM();
             }
 
         } break;
@@ -142,6 +179,8 @@ void Game::Run()
                 SetActiveScreen(&pauseScreen);
 
                 applicationState = ApplicationStates::PAUSE;
+
+                PlayBGM();
             }
 
         } break;
@@ -152,6 +191,8 @@ void Game::Run()
                 SetActiveScreen(nullptr);
 
                 applicationState = ApplicationStates::GAMEPLAY;
+
+                PauseBGM();
             }
 
         } break;
@@ -164,11 +205,18 @@ void Game::Run()
 
         if (applicationState == ApplicationStates::GAMEPLAY)
         {
+            if (IsKeyPressed(KEY_M) || IsKeyPressed(KEY_L) || IsKeyPressed(KEY_K))
+            {
+                StartTimer(&hudTimer, 4.0f);
+            }
+
+            UpdateTimer(&hudTimer);
+
             UpdateCamera(&_camera, &gameObj.player);
 
             DrawGamePlayScreen(&_camera, &gameObj);
 
-            DrawGamePlayHUD(&gameObj.player);
+            DrawGamePlayHUD(&gameObj.player, &hudTimer);
         }
 
         DrawScreen();
@@ -179,5 +227,6 @@ void Game::Run()
     UnloadScreenTexture();
 
     CloseWindow();
-    CloseAudioDevice();
+
+    ShutdownAudio();
 }

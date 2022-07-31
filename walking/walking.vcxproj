@@ -374,6 +374,9 @@
     <Image Include="textures\screens_bg\galaxy.png" />
     <Image Include="textures\screens_bg\helix_nebula.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="sounds\epic_cinematic_trailer_elite.ogg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

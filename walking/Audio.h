@@ -4,5 +4,10 @@
 
 #include "CoreLib.h"
 
-void  UpdateAudioDevice();
+void  InitAudio();
+void  UpdateAudio();
+void  StartBGM(const char* musicFIle);
+void  ShutdownAudio();
+void  PlayBGM();
+void  PauseBGM();
 float GetMasterVolume();

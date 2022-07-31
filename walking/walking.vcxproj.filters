@@ -143,4 +143,9 @@
       <Filter>textures\screens_bg</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="sounds\epic_cinematic_trailer_elite.ogg">
+      <Filter>sounds</Filter>
+    </None>
+  </ItemGroup>
 </Project>
