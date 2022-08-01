@@ -38,9 +38,9 @@ void UpdateAudio()
 	SetMasterVolume(masterVolume);
 }
 
-void StartBGM(const char* musicFIle)
+void StartBGM(const char* musicFile)
 {
-	bgm = LoadMusicStream(musicFIle);
+	bgm = LoadMusicStream(musicFile);
 	bgm.looping = 1;
 }
 

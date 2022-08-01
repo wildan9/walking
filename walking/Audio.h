@@ -6,7 +6,7 @@
 
 void  InitAudio();
 void  UpdateAudio();
-void  StartBGM(const char* musicFIle);
+void  StartBGM(const char* musicFile);
 void  ShutdownAudio();
 void  PlayBGM();
 void  PauseBGM();

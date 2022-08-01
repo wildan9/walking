@@ -16,7 +16,8 @@ struct Game
 	void UpdateCamera(raylib::Camera2D* camera,			Player* player);
 	void Run();
 
-	const int _screenWidth		= { 512 };
-	const int _screenHeight		= { 512 };
-	raylib::Camera2D _camera	= {/*0*/};
+	const int _screenWidth		= 512;
+	const int _screenHeight		= 512;
+	
+	raylib::Camera2D _camera;
 };
