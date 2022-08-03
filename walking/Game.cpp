@@ -89,7 +89,7 @@ void Game::DrawGamePlayHUD(Player* player, Timer* timer)
     if (player->GetDirection().Length() == NULL) strStatus = "Status: IDLE";
     else strStatus = (player->GetSpeed() == 4.0f) ? "Status: Walk Fast" : "Status: Walk Slow";
 
-    if (!TimerDone(timer))
+    if (GetMasterVolume() == NULL || !TimerDone(timer))
     {
         DrawText(strVolume[(int8_t)(GetMasterVolume() * 10)], 10, 10, 24, RED);
     }
